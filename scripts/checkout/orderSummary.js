@@ -90,18 +90,17 @@ export function renderOrderSummary() {
     <div class="delivery-option js-delivery-option"
     data-product-id="${matchingProduct.id}"
     data-delivery-option-id=${deliveryOption.id}>
-              <input
-              type="radio"
-              ${isChecked ? "checked" : ""}
-              class="delivery-option-input"
-              name="delivery-option-${matchingProduct.id}"
-              />
-              <div>
-              <div class="delivery-option-date">${dateString}</div>
-              <div class="delivery-option-price">${priceString} Shipping</div>
-              </div>
-          </div>
-      </div>
+        <input
+        type="radio"
+        ${isChecked ? "checked" : ""}
+        class="delivery-option-input"
+        name="delivery-option-${matchingProduct.id}"
+        />
+        <div>
+        <div class="delivery-option-date">${dateString}</div>
+        <div class="delivery-option-price">${priceString} Shipping</div>
+        </div>
+    </div>
     `;
     });
     return html;
@@ -131,9 +130,6 @@ export function renderOrderSummary() {
     ).innerHTML = `${calculateCartQuantity()} items`;
     return calculateCartQuantity();
   }
-  document.querySelector(
-    ".js-return-to-home-link"
-  ).innerHTML = `${updateCartQuantity()} items`;
 
   document.querySelectorAll(".js-delivery-option").forEach((element) => {
     element.addEventListener("click", () => {

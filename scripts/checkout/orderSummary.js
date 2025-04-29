@@ -26,6 +26,26 @@ export function renderOrderSummary() {
     const deliveryDate = today.add(deliveryOption.deliveryDays, "days");
     const dateString = deliveryDate.format("dddd, MMMM D");
 
+    function renderUpdateOrSave() {
+      let html = "";
+      if (!cartItem.updateStatus) {
+        html += `
+        <span> Quantity: <span class="quantity-label">${cartItem.quantity}</span> </span>
+          <span class="update-quantity-link link-primary js-link-primary"
+                data-product-id='${matchingProduct.id}'>
+                Update
+                </span>
+        `;
+      } else {
+        html += `
+          <span> Quantity:</span>
+          <input class='quantity-input' type='number' value='${cartItem.quantity}'/>
+          <span class='save-quantity-link link-primary js-save-link' data-product-id='${matchingProduct.id}'>Save</span>
+        `;
+      }
+      return html;
+    }
+
     cartSummaryHTML += `
     <div class="cart-item-container js-cart-item-container-${
       matchingProduct.id
@@ -46,12 +66,7 @@ export function renderOrderSummary() {
               matchingProduct.priceCents
             )}</div>
             <div class="product-quantity">
-                <span> Quantity: <span class="quantity-label">${
-                  cartItem.quantity
-                }</span> </span>
-                <span class="update-quantity-link link-primary">
-                Update
-                </span>
+              ${renderUpdateOrSave()}
                 <span class="delete-quantity-link link-primary js-delete-link" data-product-id='${
                   matchingProduct.id
                 }'>
@@ -139,6 +154,35 @@ export function renderOrderSummary() {
     const deliveryOptionId=element.dataset.deliveryOptionId;
     */
       updateDeliveryOption(productId, deliveryOptionId);
+      renderOrderSummary();
+      renderPaymentSummary();
+    });
+  });
+  // if we click update it should become save
+  document.querySelectorAll(".js-link-primary").forEach((link) => {
+    link.addEventListener("click", () => {
+      cart.forEach((cartItem) => {
+        if (link.dataset.productId === cartItem.productId)
+          cartItem.updateStatus = true;
+      });
+      renderOrderSummary();
+    });
+  });
+
+  //if we click save it should become update
+  document.querySelectorAll(".js-save-link").forEach((link) => {
+    link.addEventListener("click", () => {
+      cart.forEach((cartItem) => {
+        if (link.dataset.productId === cartItem.productId) {
+          cartItem.updateStatus = false;
+          let val = document.querySelector(".quantity-input").value;
+          if (val > 0) {
+            cartItem.quantity = val;
+          } else {
+            alert("Not a valid input");
+          }
+        }
+      });
       renderOrderSummary();
       renderPaymentSummary();
     });

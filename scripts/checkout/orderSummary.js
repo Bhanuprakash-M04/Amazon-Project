@@ -12,6 +12,7 @@ import {
   getDeliveryOption,
 } from "../../data/deliveryOptions.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
+import { renderCheckoutHeader } from "./checkoutHeader.js";
 
 export function renderOrderSummary() {
   let cartSummaryHTML = "";
@@ -177,14 +178,16 @@ export function renderOrderSummary() {
           cartItem.updateStatus = false;
           let val = document.querySelector(".quantity-input").value;
           if (val > 0) {
-            cartItem.quantity = val;
+            cartItem.quantity = Number(val);
           } else {
             alert("Not a valid input");
           }
         }
       });
+
       renderOrderSummary();
       renderPaymentSummary();
+      renderCheckoutHeader();
     });
   });
 }

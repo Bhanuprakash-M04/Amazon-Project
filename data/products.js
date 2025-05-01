@@ -9,6 +9,37 @@ export function getProduct(productId) {
   });
   return matchingProduct;
 }
+/*
+const date = new Date();
+console.log(date);                    // Inbuilt classes
+console.log(date.toLocaleTimeString());
+*/
+
+/*
+console.log(this);
+const obj2 = {
+  a: 2,
+  b: this.a,   // if there is no object 'this' is undefined
+};
+*/
+
+/*
+function LogThis() {
+  console.log(this);
+}                        // this inside function is undefined
+                           but it can be changed using the call method
+LogThis();
+LogThis.call("hello");
+
+*/
+
+/*
+const hi = () => {
+  console.log(this); // Arrow functions cannot change the value of this
+};
+
+hi();
+*/
 
 class Product {
   id;

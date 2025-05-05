@@ -2,7 +2,7 @@ import { cart, addToCart, calculateCartQuantity } from "../data/cart.js";
 import { products, loadProducts, loadProductsFetch } from "../data/products.js";
 import { currencyFormat } from "./utils/money.js";
 
-loadProductsFetch(renderProductsGrid);
+loadProducts(renderProductsGrid);
 
 function renderProductsGrid() {
   let productsHTML = "";

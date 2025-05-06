@@ -1,4 +1,4 @@
-import { cart } from "../../data/cart.js";
+import { cart, saveToStorage } from "../../data/cart.js";
 import { getProduct } from "../../data/products.js";
 import { getDeliveryOption } from "../../data/deliveryOptions.js";
 import { currencyFormat } from "../utils/money.js";
@@ -73,12 +73,12 @@ export function renderPaymentSummary() {
           }),
         });
         const order = await response.json();
-        console.log(order);
         addOrder(order);
       } catch (error) {
         console.log("unexpected error ! try again later");
       }
-
+      cart.length = 0;
+      saveToStorage();
       window.location.href = "orders.html";
     });
 }

@@ -3,7 +3,10 @@ import { products, loadProducts } from "./products.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
 import { cart, addToCart, calculateCartQuantity } from "../data/cart.js";
 
-loadProducts(renderOrderPage);
+document.addEventListener("DOMContentLoaded", function () {
+  loadProducts(renderOrderPage);
+  renderOrderHeader();
+});
 
 export const orders = JSON.parse(localStorage.getItem("orders")) || [];
 
@@ -19,7 +22,7 @@ function saveToStorage() {
 function findProduct(orderProduct) {
   return products.find((product) => orderProduct.productId === product.id);
 }
-export function renderEachOrder(order) {
+function renderEachOrder(order) {
   let productsHTML = "";
   const products = order.products;
   products.forEach((product) => {
@@ -55,7 +58,7 @@ export function renderEachOrder(order) {
   return productsHTML;
 }
 
-export function renderOrderPage() {
+function renderOrderPage() {
   let html = "";
   orders.forEach((order) => {
     const deliveryDate = dayjs(order.orderTime);
@@ -85,7 +88,7 @@ export function renderOrderPage() {
 </div>`;
   });
   document.querySelector(".js-orders-grid").innerHTML = html;
-  console.log(cart);
+
   document.querySelectorAll(".js-button-buy").forEach((button) => {
     button.addEventListener("click", () => {
       addToCart(button.dataset.productId);
@@ -134,4 +137,3 @@ function renderOrderHeader() {
   `;
   document.querySelector(".js-amazon-header").innerHTML = html;
 }
-renderOrderHeader();

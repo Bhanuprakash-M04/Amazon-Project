@@ -212,3 +212,19 @@
 .quantity-input{
   width:30px;
 }
+
+
+
+.cart-para{
+  color:black;
+  margin-bottom: 10px;
+}
+
+.cart-button {
+  font-size:15px;
+  background-color: #ffd814;
+  border:none;
+  border-radius: 5px;
+  width:135px;
+  height:40px;
+}

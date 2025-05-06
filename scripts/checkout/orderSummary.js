@@ -16,6 +16,13 @@ import { renderCheckoutHeader } from "./checkoutHeader.js";
 
 export function renderOrderSummary() {
   let cartSummaryHTML = "";
+  if (cart.length === 0) {
+    cartSummaryHTML += `
+      <div class='cart-para'>Your cart is empty.</div>
+      <button class='cart-button' onclick="window.location.href='amazon.html';">View products</button>
+    `;
+  }
+
   cart.forEach((cartItem) => {
     const productId = cartItem.productId;
     const matchingProduct = getProduct(productId);

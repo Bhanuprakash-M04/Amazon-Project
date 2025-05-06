@@ -1,6 +1,7 @@
 import { currencyFormat } from "../scripts/utils/money.js";
 import { products, loadProducts } from "./products.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
+import { cart, addToCart, calculateCartQuantity } from "../data/cart.js";
 
 loadProducts(renderOrderPage);
 
@@ -36,7 +37,7 @@ export function renderEachOrder(order) {
       </div>
       <div class="product-delivery-date">Arriving on: ${dateString}</div>
       <div class="product-quantity">Quantity: ${product.quantity}</div>
-      <button class="buy-again-button button-primary">
+      <button class="buy-again-button button-primary js-button-buy" data-product-id='${matchingProduct.id}'>
         <img class="buy-again-icon" src="images/icons/buy-again.png" />
         <span class="buy-again-message">Buy it again</span>
       </button>
@@ -84,4 +85,53 @@ export function renderOrderPage() {
 </div>`;
   });
   document.querySelector(".js-orders-grid").innerHTML = html;
+  console.log(cart);
+  document.querySelectorAll(".js-button-buy").forEach((button) => {
+    button.addEventListener("click", () => {
+      addToCart(button.dataset.productId);
+      document.querySelector(
+        ".js-cart-quantity"
+      ).innerHTML = `${calculateCartQuantity()}`;
+    });
+  });
 }
+
+function renderOrderHeader() {
+  let html = "";
+  html += `
+    <div class="amazon-header-left-section">
+        <a href="amazon.html" class="header-link">
+          <img class="amazon-logo" src="images/amazon-logo-white.png" />
+          <img
+            class="amazon-mobile-logo"
+            src="images/amazon-mobile-logo-white.png"
+          />
+        </a>
+      </div>
+
+      <div class="amazon-header-middle-section">
+        <input class="search-bar" type="text" placeholder="Search" />
+
+        <button class="search-button">
+          <img class="search-icon" src="images/icons/search-icon.png" />
+        </button>
+      </div>
+
+      <div class="amazon-header-right-section">
+        <a class="orders-link header-link" href="orders.html">
+          <span class="returns-text">Returns</span>
+          <span class="orders-text">& Orders</span>
+        </a>
+
+        <a class="cart-link header-link" href="checkout.html">
+          <img class="cart-icon" src="images/icons/cart-icon.png" />
+          <div class="cart-quantity js-cart-quantity">
+            ${calculateCartQuantity()}
+          </div>
+          <div class="cart-text">Cart</div>
+        </a>
+      </div>
+  `;
+  document.querySelector(".js-amazon-header").innerHTML = html;
+}
+renderOrderHeader();

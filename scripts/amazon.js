@@ -2,9 +2,55 @@ import { cart, addToCart, calculateCartQuantity } from "../data/cart.js";
 import { products, loadProducts, loadProductsFetch } from "../data/products.js";
 import { currencyFormat } from "./utils/money.js";
 
-loadProducts(renderProductsGrid);
+loadProducts(amazonProductsRender);
 
-function renderProductsGrid() {
+function amazonProductsRender() {
+  document.querySelector(".js-search-icon").addEventListener("click", () => {
+    let val = document.querySelector(".js-search-bar").value;
+    if (val) {
+      let newProducts = products.filter((eachProduct) => {
+        return eachProduct.keywords.some((keyword) => {
+          let keywordLower = keyword.toLowerCase();
+          let inputLower = val.toLowerCase();
+          return (
+            keywordLower.includes(inputLower) ||
+            inputLower.includes(keywordLower)
+          );
+        });
+      });
+      renderProductsGrid(newProducts);
+    } else {
+      renderProductsGrid(products);
+    }
+  });
+
+  document
+    .querySelector(".js-search-bar")
+    .addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        let val = document.querySelector(".js-search-bar").value;
+        if (val) {
+          let newProducts = products.filter((eachProduct) => {
+            return eachProduct.keywords.some((keyword) => {
+              let keywordLower = keyword.toLowerCase();
+              let inputLower = val.toLowerCase();
+              return (
+                keywordLower.includes(inputLower) ||
+                inputLower.includes(keywordLower)
+              );
+            });
+          });
+          renderProductsGrid(newProducts);
+        } else {
+          renderProductsGrid(products);
+        }
+      }
+    });
+
+  renderProductsGrid(products);
+}
+
+function renderProductsGrid(products) {
   let productsHTML = "";
   products.forEach((product) => {
     productsHTML += `

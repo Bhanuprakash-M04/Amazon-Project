@@ -25,6 +25,14 @@ function renderTrackingPage() {
   const deliveryDate = product.estimatedDeliveryTime;
   const dateString = dayjs(deliveryDate).format("dddd, MMMM, D");
 
+  const deliveryTime = new Date(deliveryDate);
+  const currentTime = new Date();
+  const orderTime = new Date(order.orderTime);
+
+  let progressPercent =
+    ((currentTime - orderTime) / (deliveryTime - orderTime)) * 100;
+
+  progressPercent = Math.max(0, Math.min(progressPercent, 100));
   let html = `
         <div class="order-tracking">
         <a class="back-to-orders-link link-primary" href="orders.html">
@@ -45,13 +53,21 @@ function renderTrackingPage() {
         />
 
         <div class="progress-labels-container">
-          <div class="progress-label">Preparing</div>
-          <div class="progress-label current-status">Shipped</div>
-          <div class="progress-label">Delivered</div>
+          <div class="progress-label ${
+            progressPercent <= 49 ? "current-status" : ""
+          } ">Preparing</div>
+          <div class="progress-label ${
+            progressPercent <= 99 && progressPercent > 49
+              ? "current-status"
+              : ""
+          } ">Shipped</div>
+          <div class="progress-label ${
+            progressPercent === 100 ? "current-status" : ""
+          } ">Delivered</div>
         </div>
 
         <div class="progress-bar-container">
-          <div class="progress-bar"></div>
+          <div class="progress-bar" style="width:${progressPercent}%;"></div>
         </div>
       </div>
     `;

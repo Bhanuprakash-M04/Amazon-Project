@@ -140,7 +140,7 @@ export function renderOrderSummary() {
         `.js-cart-item-container-${productId}`
       );
       container.remove();
-
+      renderOrderSummary();
       renderPaymentSummary();
     });
   });
